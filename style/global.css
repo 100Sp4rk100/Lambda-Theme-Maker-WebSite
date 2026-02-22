@@ -1,11 +1,48 @@
 header{
-    background-color: rgb(127, 231, 235);
+    background-color: rgb(74,197,20);
+    border-radius: 12px;
+    color: white;
+}
+
+body{
+    background-color: rgb(59, 59, 59);
 }
 
 main{
-    background-color: rgb(197, 246, 248);
+    background-color: rgb(93, 93, 93);
+    border-radius: 12px;
 }
 
 footer{
-    background-color: rgb(134, 200, 202);
+    background-color: rgb(74,197,20);
+    border-radius: 12px;
+}
+
+#title{
+    text-align: center;
+}
+
+button {
+  background-color: rgb(102,237,42);
+  border: none;
+  color: white;
+  padding: 10px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 12px;
+}
+
+input[type="color"] {
+  background-color: transparent;
+  width: 25px;
+  height: 25px;
+  border: none;
+  cursor: pointer;
+}
+
+a{
+    color: rgb(255, 255, 255);
 }
