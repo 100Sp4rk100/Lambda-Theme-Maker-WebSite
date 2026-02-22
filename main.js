@@ -115,15 +115,31 @@ const keys = Object.keys(palette);
     return buffer;
 }
 
-//download the binary
-function download_binary(){
-    const fileBlob = new Blob([makeBinary()], { type: "application/octet-stream" });
+//download the theme
+function download_theme(){
+    const jsonString = JSON.stringify(palette);
+    
+    const fileBlob = new Blob([jsonString], { type: "application/json" });
     const url = URL.createObjectURL(fileBlob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'profil.theme';
+    a.download = 'profil.txt';
     a.click();
     URL.revokeObjectURL(url);
+}
+
+//import the theme
+function import_theme(event){
+    var fr = new FileReader();
+    var json;
+    fr.onload = function() {
+        json = JSON.parse(fr.result);
+        Object.keys(palette).forEach(function(colorName) {
+            palette[colorName] = json[colorName];
+            document.getElementById(colorName).value = toHex(palette[colorName]);
+        });
+    }
+    fr.readAsText(this.files[0]);
 }
 
 //upload function
@@ -162,11 +178,38 @@ async function upload_on_calculator(){
     }
 }
 
+//deleting function
+async function delete_on_calculator(){
+    try {
+        console.log("Reading storage");
+        var storage = await calculator.backupStorage();
+
+        //check if there is already a theme loaded
+        for (var i in storage.records) {
+            var record = storage.records[i];
+            var name = record.name + "." + record.type;
+            console.log(record);
+            if (name=="profil.theme"){
+                console.log("Removing theme");
+                storage.records.splice(i, 1);
+            }
+        }
+
+        await calculator.installStorage(storage, function() {
+            alert("Theme successfully removed !");
+        });
+    } catch (error) {
+        console.error("Eroor during upload :", error);
+        alert("Error : " + error.message);
+    }
+}
+
 //event when calculator is connected
 function calculator_connected(){
     console.log("Connected");
     is_connected = true;
-    document.getElementById("connect_upload_btn").innerHTML = "Upload"
+    document.getElementById("connect_upload_btn").innerHTML = "Upload";
+    document.getElementById("delete_btn").style.visibility = "visible";
     calculator.stopAutoConnect();
 }
 
@@ -189,7 +232,8 @@ navigator.usb.addEventListener("disconnect", function(e) {
 console.log("Disconected");
   calculator.onUnexpectedDisconnect(e, function() {
     is_connected = false;
-    document.getElementById("connect_upload_btn").innerHTML = "Connect"
+    document.getElementById("connect_upload_btn").innerHTML = "Connect";
+    document.getElementById("delete_btn").style.visibility = "hidden";
   });
 });
 
@@ -197,5 +241,7 @@ console.log("Disconected");
 calculator.autoConnect(calculator_connected);
 
 setupColorsListe();
-document.getElementById("download_btn").addEventListener("click", download_binary);
+document.getElementById("download_btn").addEventListener("click", download_theme);
+document.getElementById("import_input").addEventListener("change", import_theme);
 document.getElementById("connect_upload_btn").addEventListener("click", connect_upload);
+document.getElementById("delete_btn").addEventListener("click", delete_on_calculator);

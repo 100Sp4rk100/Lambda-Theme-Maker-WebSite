@@ -43,6 +43,15 @@ input[type="color"] {
   cursor: pointer;
 }
 
+input[type="file"] {
+    background-color: rgb(102,237,42);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    padding: 10px 24px;
+}
+
 a{
     color: rgb(255, 255, 255);
 }
