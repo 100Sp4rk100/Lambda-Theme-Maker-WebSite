@@ -98,10 +98,20 @@ function setupColorsListe() {
     });
 }
 
+//setup background liste
+function setupBackgroundList(){
+    const list_backgrounds = document.getElementById("background");
+    for (let index = 1; index <= 3; index++) {
+        let option = document.createElement("option");
+        option.innerHTML = index;
+        list_backgrounds.append(option);
+    }
+}
+
 //make the binary file for download
 function makeBinary(){
 const keys = Object.keys(palette);
-    const buffer = new ArrayBuffer(keys.length * 2);
+    const buffer = new ArrayBuffer(keys.length * 2 + 8);
 
     const view = new DataView(buffer);
 
@@ -112,12 +122,48 @@ const keys = Object.keys(palette);
         view.setUint16(index * 2, rgb565, true);
     });
 
+    //get meta data
+    var square_icon;
+    var is_background;
+    var icon_profil;
+    var background = 0;
+
+    if (document.getElementById("squareIcon").checked)square_icon = 1;
+    else square_icon = 0;
+
+    if (document.getElementById("haveBackground").checked){
+        is_background = 0;
+        background = parseInt(document.getElementById("background").value)-1;
+    }
+    else{
+        is_background = 1;
+    }
+
+    if (document.getElementById("iconProfil").value == "epsilon")icon_profil = 1;
+    else icon_profil = 0;
+
+    const startOfMetadata = keys.length * 2;
+    view.setUint16(startOfMetadata, square_icon, true);
+    view.setUint16(startOfMetadata + 2, is_background, true);
+    view.setUint16(startOfMetadata + 4, background, true);
+    view.setUint16(startOfMetadata + 6, icon_profil, true);
+
     return buffer;
 }
 
 //download the theme
 function download_theme(){
-    const jsonString = JSON.stringify(palette);
+    const dataToSave = {
+        palette: palette,
+        settings: {
+            isSquareIcon: document.getElementById("squareIcon").checked,
+            isBackground: document.getElementById("haveBackground").checked,
+            background: document.getElementById("background").value,
+            iconProfil: document.getElementById("iconProfil").value
+        }
+    };
+
+    const jsonString = JSON.stringify(dataToSave, null, 4);
     
     const fileBlob = new Blob([jsonString], { type: "application/json" });
     const url = URL.createObjectURL(fileBlob);
@@ -135,9 +181,13 @@ function import_theme(event){
     fr.onload = function() {
         json = JSON.parse(fr.result);
         Object.keys(palette).forEach(function(colorName) {
-            palette[colorName] = json[colorName];
+            palette[colorName] = json["palette"][colorName];
             document.getElementById(colorName).value = toHex(palette[colorName]);
         });
+        document.getElementById("squareIcon").checked = json["settings"]["isSquareIcon"];
+        document.getElementById("haveBackground").checked = json["settings"]["isBackground"];
+        document.getElementById("background").value = json["settings"]["background"];
+        document.getElementById("iconProfil").value = json["settings"]["iconProfil"];
     }
     fr.readAsText(this.files[0]);
 }
@@ -240,8 +290,16 @@ console.log("Disconected");
 //setup auto-connection event
 calculator.autoConnect(calculator_connected);
 
+//setup rest of html
 setupColorsListe();
+setupBackgroundList()
+
+//setup listeners
 document.getElementById("download_btn").addEventListener("click", download_theme);
 document.getElementById("import_input").addEventListener("change", import_theme);
 document.getElementById("connect_upload_btn").addEventListener("click", connect_upload);
 document.getElementById("delete_btn").addEventListener("click", delete_on_calculator);
+document.getElementById("haveBackground").addEventListener("change", function (){
+    if(document.getElementById("haveBackground").checked) document.getElementById("background").style.visibility = "visible";
+    else document.getElementById("background").style.visibility = "hidden";
+});
