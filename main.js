@@ -1,4 +1,4 @@
-import Numworks from "upsilon.js"
+import Numworks from "./upsilon.js"
 
 //palette with all colors
 const palette = {
