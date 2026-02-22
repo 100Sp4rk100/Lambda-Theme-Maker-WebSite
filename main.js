@@ -50,6 +50,9 @@ const palette = {
 //create calculator instance for usb
 var calculator = new Numworks();
 
+//variable to know if the calculator is connected
+var is_connected = false;
+
 //convert hexadecimal to compatible format
 function toHex(num) {
     return "#" + num.toString(16).padStart(6, '0');
@@ -162,27 +165,31 @@ async function upload_on_calculator(){
 //event when calculator is connected
 function calculator_connected(){
     console.log("Connected");
+    is_connected = true;
+    document.getElementById("connect_upload_btn").innerHTML = "Upload"
     calculator.stopAutoConnect();
-    document.getElementById("upload_btn").style.visibility = "visible";
-    document.getElementById("connect_btn").style.visibility = "hidden";
 }
 
-//event to connect calculator manuely
-function handleConnect() {
-    calculator.detect(function() {
-        calculator_connected();
-    }, function(error) {
-        console.error("Erreur de connexion :", error);
-        alert("Erreur : " + error);
-    });
+//event to connect calculator manuely or to upload on the calculator
+function connect_upload() {
+    if(is_connected){
+        upload_on_calculator()
+    }else{
+        calculator.detect(function() {
+            calculator_connected();
+        }, function(error) {
+            console.error("Erreur de connexion :", error);
+            alert("Erreur : " + error);
+        });
+    }
 }
 
 //setup deconection event
 navigator.usb.addEventListener("disconnect", function(e) {
 console.log("Disconected");
   calculator.onUnexpectedDisconnect(e, function() {
-    document.getElementById("upload_btn").style.visibility = "hidden";
-    document.getElementById("connect_btn").style.visibility = "visible";
+    is_connected = false;
+    document.getElementById("connect_upload_btn").innerHTML = "Connect"
   });
 });
 
@@ -191,5 +198,4 @@ calculator.autoConnect(calculator_connected);
 
 setupColorsListe();
 document.getElementById("download_btn").addEventListener("click", download_binary);
-document.getElementById("connect_btn").addEventListener("click", handleConnect);
-document.getElementById("upload_btn").addEventListener("click", upload_on_calculator);
+document.getElementById("connect_upload_btn").addEventListener("click", connect_upload);
