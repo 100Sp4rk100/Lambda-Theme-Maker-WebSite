@@ -55,3 +55,11 @@ input[type="file"] {
 a{
     color: rgb(255, 255, 255);
 }
+
+select{
+    border-color: #fff transparent transparent transparent;
+    border-radius: 12px;
+    border: 6px solid transparent;
+    background-color: rgb(102,237,42);
+    color: white;
+}

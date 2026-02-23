@@ -111,7 +111,7 @@ function setupBackgroundList(){
 //make the binary file for download
 function makeBinary(){
 const keys = Object.keys(palette);
-    const buffer = new ArrayBuffer(keys.length * 2 + 8);
+    const buffer = new ArrayBuffer(keys.length * 2 + 10);
 
     const view = new DataView(buffer);
 
@@ -127,9 +127,13 @@ const keys = Object.keys(palette);
     var is_background;
     var icon_profil;
     var background = 0;
+    var dynamic_image;
 
     if (document.getElementById("squareIcon").checked)square_icon = 1;
     else square_icon = 0;
+
+    if (document.getElementById("dynamicImage").checked)dynamic_image = 0;
+    else dynamic_image = 1;
 
     if (document.getElementById("haveBackground").checked){
         is_background = 0;
@@ -139,7 +143,7 @@ const keys = Object.keys(palette);
         is_background = 1;
     }
 
-    if (document.getElementById("iconProfil").value == "epsilon")icon_profil = 1;
+    if (document.getElementById("iconProfil").value == "epsilon" || dynamic_image == 1)icon_profil = 1;
     else icon_profil = 0;
 
     const startOfMetadata = keys.length * 2;
@@ -147,6 +151,7 @@ const keys = Object.keys(palette);
     view.setUint16(startOfMetadata + 2, is_background, true);
     view.setUint16(startOfMetadata + 4, background, true);
     view.setUint16(startOfMetadata + 6, icon_profil, true);
+    view.setUint16(startOfMetadata + 8, dynamic_image, true);
 
     return buffer;
 }
@@ -159,7 +164,8 @@ function download_theme(){
             isSquareIcon: document.getElementById("squareIcon").checked,
             isBackground: document.getElementById("haveBackground").checked,
             background: document.getElementById("background").value,
-            iconProfil: document.getElementById("iconProfil").value
+            iconProfil: document.getElementById("iconProfil").value,
+            dynamic_image: document.getElementById("dynamicImage").checked
         }
     };
 
@@ -169,7 +175,7 @@ function download_theme(){
     const url = URL.createObjectURL(fileBlob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'profil.txt';
+    a.download = 'profil.json';
     a.click();
     URL.revokeObjectURL(url);
 }
@@ -188,6 +194,7 @@ function import_theme(event){
         document.getElementById("haveBackground").checked = json["settings"]["isBackground"];
         document.getElementById("background").value = json["settings"]["background"];
         document.getElementById("iconProfil").value = json["settings"]["iconProfil"];
+        document.getElementById("dynamicImage").checked = json["settings"]["dynamic_image"];
     }
     fr.readAsText(this.files[0]);
 }
@@ -302,4 +309,8 @@ document.getElementById("delete_btn").addEventListener("click", delete_on_calcul
 document.getElementById("haveBackground").addEventListener("change", function (){
     if(document.getElementById("haveBackground").checked) document.getElementById("background").style.visibility = "visible";
     else document.getElementById("background").style.visibility = "hidden";
+});
+document.getElementById("dynamicImage").addEventListener("change", function (){
+    if(document.getElementById("dynamicImage").checked) document.getElementById("iconProfil").style.visibility = "hidden";
+    else document.getElementById("iconProfil").style.visibility = "visible";
 });
