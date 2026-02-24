@@ -181,7 +181,7 @@ function download_theme(){
 }
 
 //import the theme
-function import_theme(event){
+function import_theme(){
     var fr = new FileReader();
     var json;
     fr.onload = function() {
@@ -195,6 +195,7 @@ function import_theme(event){
         document.getElementById("background").value = json["settings"]["background"];
         document.getElementById("iconProfil").value = json["settings"]["iconProfil"];
         document.getElementById("dynamicImage").checked = json["settings"]["dynamic_image"];
+        if(json["settings"]["dynamic_image"]) document.getElementById("iconProfil").style.visibility = "hidden";
     }
     fr.readAsText(this.files[0]);
 }
