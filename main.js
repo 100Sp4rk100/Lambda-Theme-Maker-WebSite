@@ -101,7 +101,7 @@ function setupColorsListe() {
 //setup background liste
 function setupBackgroundList(){
     const list_backgrounds = document.getElementById("background");
-    for (let index = 1; index <= 3; index++) {
+    for (let index = 1; index <= 4; index++) {
         let option = document.createElement("option");
         option.innerHTML = index;
         list_backgrounds.append(option);
@@ -196,6 +196,9 @@ function import_theme(){
         document.getElementById("iconProfil").value = json["settings"]["iconProfil"];
         document.getElementById("dynamicImage").checked = json["settings"]["dynamic_image"];
         if(json["settings"]["dynamic_image"]) document.getElementById("iconProfil").style.visibility = "hidden";
+        else document.getElementById("iconProfil").style.visibility = "visible";
+        if(!json["settings"]["isBackground"]) document.getElementById("background").style.visibility = "hidden";
+        else document.getElementById("background").style.visibility = "visible";
     }
     fr.readAsText(this.files[0]);
 }
