@@ -98,16 +98,6 @@ function setupColorsListe() {
     });
 }
 
-//setup background liste
-function setupBackgroundList(){
-    const list_backgrounds = document.getElementById("background");
-    for (let index = 1; index <= 4; index++) {
-        let option = document.createElement("option");
-        option.innerHTML = index;
-        list_backgrounds.append(option);
-    }
-}
-
 //make the binary file for download
 function makeBinary(){
 const keys = Object.keys(palette);
@@ -303,7 +293,6 @@ calculator.autoConnect(calculator_connected);
 
 //setup rest of html
 setupColorsListe();
-setupBackgroundList()
 
 //setup listeners
 document.getElementById("download_btn").addEventListener("click", download_theme);
