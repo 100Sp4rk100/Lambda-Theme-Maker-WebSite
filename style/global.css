@@ -43,15 +43,6 @@ input[type="color"] {
   cursor: pointer;
 }
 
-input[type="file"] {
-    background-color: rgb(102,237,42);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    padding: 10px 24px;
-}
-
 a{
     color: rgb(255, 255, 255);
 }
@@ -62,6 +53,7 @@ select{
     border: 6px solid transparent;
     background-color: rgb(102,237,42);
     color: white;
+    cursor: pointer;
 }
 
 input[type="number"] {
@@ -72,4 +64,16 @@ input[type="number"] {
     cursor: pointer;
     padding: 10px 24px;
     width: 50px;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.file_input_label {
+  padding: 8px 16px;
+  background: rgb(102,237,42);
+  color: white;
+  cursor: pointer;
+  border-radius: 121px;
 }

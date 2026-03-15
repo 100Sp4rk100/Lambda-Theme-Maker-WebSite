@@ -31,6 +31,12 @@
                 <label for="haveBackground">Activate background</label>
                 <input type="number" min ="1" value="1" id="background" style="visibility: hidden;"></input>
                 <br>
+                <br>
+                <input type="checkbox" id="haveImageBackground" style="visibility: hidden;">
+                <label for="haveImageBackground" id="haveImageBackgroundLabel" style="visibility: hidden;">Import background</label>
+                <label for="background_input" class="file_input_label" id="background_input_text" style="visibility: hidden;">Import a background</label>
+                <input type="file" id="background_input"></input>
+                <br>
                 <select id="iconProfil">
                     <option value="epsilon">Epsilon profil</option>
                     <option value="lambda">Lambda profil</option>
@@ -44,6 +50,7 @@
             <br>
             <section>
                 <button id="download_btn">Download</button>
+                <label for="import_input" class="file_input_label" id="import_input_text">Import a theme</label>
                 <input type="file" id="import_input">
             </section>
             <br>

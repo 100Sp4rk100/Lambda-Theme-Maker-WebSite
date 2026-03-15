@@ -53,6 +53,9 @@ var calculator = new Numworks();
 //variable to know if the calculator is connected
 var is_connected = false;
 
+//table for PNG background
+var background_img = []
+
 //convert hexadecimal to compatible format
 function toHex(num) {
     return "#" + num.toString(16).padStart(6, '0');
@@ -69,6 +72,10 @@ function hex_to_rgb565(hex_val){
     var b5 = (b >> 3) & 0x1F;
     
     return (r5 << 11) | (g6 << 5) | b5;
+}
+
+function rgb888_to_rgb565(r, g, b){
+    return ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3);
 }
 
 //add all color picker to the view
@@ -100,8 +107,8 @@ function setupColorsListe() {
 
 //make the binary file for download
 function makeBinary(){
-const keys = Object.keys(palette);
-    const buffer = new ArrayBuffer(keys.length * 2 + 10);
+    const keys = Object.keys(palette);
+    const buffer = new ArrayBuffer(keys.length * 2 + 12);
 
     const view = new DataView(buffer);
 
@@ -118,12 +125,16 @@ const keys = Object.keys(palette);
     var icon_profil;
     var background = 0;
     var dynamic_image;
+    var import_background;
 
     if (document.getElementById("squareIcon").checked)square_icon = 1;
     else square_icon = 0;
 
     if (document.getElementById("dynamicImage").checked)dynamic_image = 0;
     else dynamic_image = 1;
+
+    if (document.getElementById("haveImageBackground").checked)import_background = 0;
+    else import_background = 1;
 
     if (document.getElementById("haveBackground").checked){
         is_background = 0;
@@ -142,6 +153,19 @@ const keys = Object.keys(palette);
     view.setUint16(startOfMetadata + 4, background, true);
     view.setUint16(startOfMetadata + 6, icon_profil, true);
     view.setUint16(startOfMetadata + 8, dynamic_image, true);
+    view.setUint16(startOfMetadata + 10, import_background, true);
+
+    return buffer;
+}
+
+//generate the background buffer
+function makeBackgroundBuffer(){
+    const buffer = new ArrayBuffer(320*240*2);
+    const view = new DataView(buffer);
+
+    background_img.forEach((color, index) => {
+        view.setUint16(index * 2, color, true);
+    });
 
     return buffer;
 }
@@ -155,7 +179,8 @@ function download_theme(){
             isBackground: document.getElementById("haveBackground").checked,
             background: document.getElementById("background").value,
             iconProfil: document.getElementById("iconProfil").value,
-            dynamic_image: document.getElementById("dynamicImage").checked
+            dynamic_image: document.getElementById("dynamicImage").checked,
+            import_background: document.getElementById("haveImageBackground").checked
         }
     };
 
@@ -175,20 +200,41 @@ function import_theme(){
     var fr = new FileReader();
     var json;
     fr.onload = function() {
-        json = JSON.parse(fr.result);
-        Object.keys(palette).forEach(function(colorName) {
-            palette[colorName] = json["palette"][colorName];
-            document.getElementById(colorName).value = toHex(palette[colorName]);
-        });
-        document.getElementById("squareIcon").checked = json["settings"]["isSquareIcon"];
-        document.getElementById("haveBackground").checked = json["settings"]["isBackground"];
-        document.getElementById("background").value = json["settings"]["background"];
-        document.getElementById("iconProfil").value = json["settings"]["iconProfil"];
-        document.getElementById("dynamicImage").checked = json["settings"]["dynamic_image"];
-        if(json["settings"]["dynamic_image"]) document.getElementById("iconProfil").style.visibility = "hidden";
-        else document.getElementById("iconProfil").style.visibility = "visible";
-        if(!json["settings"]["isBackground"]) document.getElementById("background").style.visibility = "hidden";
-        else document.getElementById("background").style.visibility = "visible";
+        try {
+            json = JSON.parse(fr.result);
+            Object.keys(palette).forEach(function(colorName) {
+                palette[colorName] = json["palette"][colorName];
+                document.getElementById(colorName).value = toHex(palette[colorName]);
+            });
+            document.getElementById("squareIcon").checked = json["settings"]["isSquareIcon"];
+            document.getElementById("haveBackground").checked = json["settings"]["isBackground"];
+            document.getElementById("haveImageBackground").checked = json["settings"]["import_background"];
+            document.getElementById("background").value = json["settings"]["background"];
+            document.getElementById("iconProfil").value = json["settings"]["iconProfil"];
+            document.getElementById("dynamicImage").checked = json["settings"]["dynamic_image"];
+            if(json["settings"]["dynamic_image"]) document.getElementById("iconProfil").style.visibility = "hidden";
+            else document.getElementById("iconProfil").style.visibility = "visible";
+            if(!json["settings"]["isBackground"]){
+                document.getElementById("background").style.visibility = "hidden";
+                document.getElementById("background_input_text").style.visibility = "hidden";
+                document.getElementById("haveImageBackground").style.visibility = "hidden";
+                document.getElementById("haveImageBackgroundLabel").style.visibility = "hidden";
+            }
+            else{
+                if (json["settings"]["import_background"]){
+                    document.getElementById("background").style.visibility = "hidden";
+                    document.getElementById("background_input_text").style.visibility = "visible";
+                }else{
+                    document.getElementById("background").style.visibility = "visible";
+                    document.getElementById("background_input_text").style.visibility = "hidden";
+                }
+                document.getElementById("haveImageBackground").style.visibility = "visible";
+                document.getElementById("haveImageBackgroundLabel").style.visibility = "visible";
+                
+            }
+        } catch (error) {
+            alert("Invalid profil : " + error)
+        }
     }
     fr.readAsText(this.files[0]);
 }
@@ -221,10 +267,20 @@ async function upload_on_calculator(){
         });
 
         await calculator.installStorage(storage, function() {
-            alert("Theme successfully installed !");
+            console.log("Theme file installed")
         });
+
+        //installing the walpaper
+        if (document.getElementById("haveImageBackground").checked){
+            let pinfo = await calculator.getPlatformInfo();
+            let start = pinfo.external.flashStart;
+
+            await calculator.__flashStorage(start, makeBackgroundBuffer(), pinfo.version);
+        }
+
+        alert("Theme successfully installed !");
     } catch (error) {
-        console.error("Eroor during upload :", error);
+        console.error("Error during upload :", error);
         alert("Error : " + error.message);
     }
 }
@@ -300,10 +356,71 @@ document.getElementById("import_input").addEventListener("change", import_theme)
 document.getElementById("connect_upload_btn").addEventListener("click", connect_upload);
 document.getElementById("delete_btn").addEventListener("click", delete_on_calculator);
 document.getElementById("haveBackground").addEventListener("change", function (){
-    if(document.getElementById("haveBackground").checked) document.getElementById("background").style.visibility = "visible";
-    else document.getElementById("background").style.visibility = "hidden";
+    if(document.getElementById("haveBackground").checked){
+        document.getElementById("background").style.visibility = "visible";
+        document.getElementById("haveImageBackground").style.visibility = "visible";
+        document.getElementById("haveImageBackgroundLabel").style.visibility = "visible";
+    }
+    else{
+        document.getElementById("background").style.visibility = "hidden";
+        document.getElementById("haveImageBackground").style.visibility = "hidden";
+        document.getElementById("haveImageBackgroundLabel").style.visibility = "hidden";
+    }
+});
+document.getElementById("haveImageBackground").addEventListener("change", function (){
+    if(document.getElementById("haveImageBackground").checked){
+        document.getElementById("background_input_text").style.visibility = "visible";
+        document.getElementById("background").style.visibility = "hidden";
+    }
+    else{
+        document.getElementById("background_input_text").style.visibility = "hidden";
+        document.getElementById("background").style.visibility = "visible";
+    }
 });
 document.getElementById("dynamicImage").addEventListener("change", function (){
     if(document.getElementById("dynamicImage").checked) document.getElementById("iconProfil").style.visibility = "hidden";
     else document.getElementById("iconProfil").style.visibility = "visible";
+});
+document.getElementById("background_input").addEventListener("change", function (e){
+    let file = e.target.files[0];
+    let name = file.name;
+
+    if (!name.endsWith(".png")){
+        alert("Invalid file !")
+        return;
+    }
+
+    document.getElementById("background_input_text").innerHTML = name;
+
+    //read the image and create a table
+    let reader = new FileReader();
+    reader.onload = function (event) {
+        let img = new Image();
+        img.onload = function () {
+            const canvas = document.createElement('canvas');
+            canvas.width = 320;
+            canvas.height = 240;
+            const ctx = canvas.getContext('2d');
+
+            ctx.drawImage(img, 0, 0, 320, 240);
+
+            const imageData = ctx.getImageData(0, 0, 320, 240).data;
+
+            for (let i = 0; i < imageData.length; i += 4) {
+                let r = imageData[i];
+                let g = imageData[i + 1];
+                let b = imageData[i + 2];
+
+                background_img.push(rgb888_to_rgb565(r, g, b))
+            }
+        };
+
+        img.src = event.target.result;
+    };
+
+    reader.readAsDataURL(file);
+});
+document.getElementById("import_input").addEventListener("change", function (e){
+    let name = e.target.files[0].name;
+    document.getElementById("import_input_text").innerHTML = name;
 });
