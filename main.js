@@ -184,6 +184,10 @@ function download_theme(){
             iconProfil: document.getElementById("iconProfil").value,
             dynamic_image: document.getElementById("dynamicImage").checked,
             import_background: document.getElementById("haveImageBackground").checked
+        },
+        background: {
+            name: document.getElementById("background_input_text").innerHTML,
+            data: background_img
         }
     };
 
@@ -235,6 +239,8 @@ function import_theme(){
                 document.getElementById("haveImageBackgroundLabel").style.visibility = "visible";
                 
             }
+            document.getElementById("background_input_text").innerHTML = json["background"]["name"];
+            background_img = json["background"]["data"];
         } catch (error) {
             alert("Invalid profil : " + error)
         }
