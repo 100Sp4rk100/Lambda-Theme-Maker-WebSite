@@ -56,6 +56,9 @@ var is_connected = false;
 //table for PNG background
 var background_img = []
 
+//copy of original console
+const originalLog = console.log;
+
 //convert hexadecimal to compatible format
 function toHex(num) {
     return "#" + num.toString(16).padStart(6, '0');
@@ -249,7 +252,6 @@ async function upload_on_calculator(){
         for (var i in storage.records) {
             var record = storage.records[i];
             var name = record.name + "." + record.type;
-            console.log(record);
             if (name=="profil.theme"){
                 console.log("Removing old theme");
                 storage.records.splice(i, 1);
@@ -295,7 +297,6 @@ async function delete_on_calculator(){
         for (var i in storage.records) {
             var record = storage.records[i];
             var name = record.name + "." + record.type;
-            console.log(record);
             if (name=="profil.theme"){
                 console.log("Removing theme");
                 storage.records.splice(i, 1);
@@ -334,6 +335,26 @@ function connect_upload() {
     }
 }
 
+function log_function(...args){
+    originalLog.apply(console, args);
+
+    const message = args.map(arg => {
+        try {
+            return typeof arg === "object" ? JSON.stringify(arg, null, 2) : String(arg);
+        } catch {
+            return String(arg);
+        }
+    }).join(" ");
+
+    const consoleDiv = document.getElementById("console");
+    if (consoleDiv) {
+        const line = document.createElement("div");
+        line.textContent = message;
+        consoleDiv.appendChild(line);
+        consoleDiv.scrollTop = consoleDiv.scrollHeight;
+    }
+}
+
 //setup deconection event
 navigator.usb.addEventListener("disconnect", function(e) {
 console.log("Disconected");
@@ -343,6 +364,9 @@ console.log("Disconected");
     document.getElementById("delete_btn").style.visibility = "hidden";
   });
 });
+
+//reaffectation of console.log
+console.log = log_function;
 
 //setup auto-connection event
 calculator.autoConnect(calculator_connected);
@@ -385,11 +409,6 @@ document.getElementById("background_input").addEventListener("change", function 
     let file = e.target.files[0];
     let name = file.name;
 
-    if (!name.endsWith(".png")){
-        alert("Invalid file !")
-        return;
-    }
-
     document.getElementById("background_input_text").innerHTML = name;
 
     //read the image and create a table
@@ -405,6 +424,8 @@ document.getElementById("background_input").addEventListener("change", function 
             ctx.drawImage(img, 0, 0, 320, 240);
 
             const imageData = ctx.getImageData(0, 0, 320, 240).data;
+
+            background_img = []
 
             for (let i = 0; i < imageData.length; i += 4) {
                 let r = imageData[i];
