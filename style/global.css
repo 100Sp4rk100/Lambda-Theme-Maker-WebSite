@@ -18,8 +18,9 @@ footer{
     border-radius: 12px;
 }
 
-#title{
+.title{
     text-align: center;
+    color: white;
 }
 
 button {
@@ -76,4 +77,16 @@ input[type="file"] {
   color: white;
   cursor: pointer;
   border-radius: 121px;
+}
+
+.color_grid{
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+    background-color: rgb(74,197,20);
+    border-radius: 12px;
+}
+
+.style_part{
+    background-color: rgb(74,197,20);
+    border-radius: 12px;
 }

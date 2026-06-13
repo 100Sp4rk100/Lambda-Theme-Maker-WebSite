@@ -94,6 +94,12 @@ function setupColorsListe() {
         picker.type = "color";
         picker.id = colorName;
         picker.value = toHex(palette[colorName]);
+        if (colorName == "BackgroundColor"){
+            picker.title = "It's useful only if you don't activate the wallpaper"
+        }
+        if (colorName == "BackgroundColorHilight"){
+            picker.title = "It's useful only if you don't activate the wallpaper and it's for when you select an app in the home app"
+        }
         picker.addEventListener("input", (e)=>{
             //modify directly the list
             palette[e.target.id] = parseInt(e.target.value.replace("#", ""), 16);
