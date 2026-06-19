@@ -1,0 +1,118 @@
+//table for PNG background
+export let background_img = []
+
+//palette with all colors
+export const palette = {
+    "YellowDark": 0xffb734,
+    "YellowLight": 0xffcc7b,
+    "PurpleBright": 0x656975,
+    "PurpleDark": 0x414147,
+    "GrayWhite": 0xf5f5f5,
+    "GrayBright": 0xececec,
+    "GrayMiddle": 0xd9d9d9,
+    "GrayDarkMiddle": 0xb8bbc5,
+    "GrayDark": 0xa7a7a7,
+    "GrayVeryDark": 0x8c8c8c,
+    "GrayDarkest": 0x333333,
+    "Select": 0xd4d7e0,
+    "SelectDark": 0xb0b8d8,
+    "WallScreen": 0xf7f9fa,
+    "WallScreenDark": 0xe0e6ed,
+    "PopUpTitleBackground": 0x696475,
+    "LowBattery": 0xf30211,
+    "Red": 0xff000c,
+    "RedLight": 0xffcccc,
+    "Magenta": 0xff0588,
+    "Turquoise": 0x60c1ec,
+    "Pink": 0xffabb6,
+    "Blue": 0x5075f2,
+    "BlueLight": 0xdce3fd,
+    "Orange": 0xfe871f,
+    "Green": 0x50c102,
+    "GreenLight": 0xdcf3cc,
+    "Brown": 0x8d7350,
+    "Purple": 0x6e2d79,
+    "BlueishGray": 0x919ea4,
+    "Cyan": 0x00ffff,
+    "KDColorBlack": 0x000000,
+    "KDColorWhite": 0xFFFFFF,
+    "KDColorRed": 0xFF0000,
+    "KDColorGreen": 0x00FF00,
+    "KDColorBlue": 0x0000FF,
+    "KDColorYellow": 0xFFFF00,
+    "KDColorOrange": 0xFF9900,
+    "KDColorPurple": 0xFF00DD,
+    "TextHillightColor": 0xFFFFFF,
+    "TextColor": 0x000000,
+    "BackgroundColor": 0xFFFFFF,
+    "BackgroundColorHilight": 0xffb734
+};
+
+// create icons list
+export const icons_data = {
+    "CalculationIcon": null, "CodeIcon": null, "DistributionIcon": null, "ElementIcon": null,
+    "FinanceIcon": null, "GraphIcon": null, "InferenceIcon": null, "RegressionIcon": null,
+    "SequenceIcon": null, "SettingsIcon": null, "SolverIcon": null, "StatIcon": null,
+    "OffIcon": null, "LambdaIcon": null, "PressToTestSuccessEpsilon": null, "HistogramIcon": null,
+    "BoxIcon": null, "CumulativeIcon": null, "StatisticsNormalIcon": null, "ConfidenceInterval": null,
+    "SignificanceTest": null, "BinomialIcon": null, "ExponentialIcon": null, "ChiSquaredIcon": null,
+    "GeometricIcon": null, "PoissonIcon": null, "UniformIcon": null, "NormalIcon": null,
+    "StudentIcon": null, "HypergeometricIcon": null, "FisherIcon": null, "Calculation1Icon": null,
+    "Calculation2Icon": null, "Calculation3Icon": null, "Calculation4Icon": null
+};
+
+// create icons offsets list
+export const icons_offsets = {
+    "CalculationIcon": 153600, "CodeIcon": 159762, "DistributionIcon": 165924, "ElementIcon": 172086,
+    "FinanceIcon": 178248, "GraphIcon": 184410, "InferenceIcon": 190572, "RegressionIcon": 196734,
+    "SequenceIcon": 202896, "SettingsIcon": 209058, "SolverIcon": 215220, "StatIcon": 221382,
+    "OffIcon": 227544, "LambdaIcon": 233706, "PressToTestSuccessEpsilon": 234046, "HistogramIcon": 235040,
+    "BoxIcon": 235476, "CumulativeIcon": 236656, "StatisticsNormalIcon": 237712, "ConfidenceInterval": 240144,
+    "SignificanceTest": 242576, "BinomialIcon": 243908, "ExponentialIcon": 245240, "ChiSquaredIcon": 246572,
+    "GeometricIcon": 247904, "PoissonIcon": 249236, "UniformIcon": 250568, "NormalIcon": 251900,
+    "StudentIcon": 253118, "HypergeometricIcon": 254450, "FisherIcon": 255782, "Calculation1Icon": 257578,
+    "Calculation2Icon": 259374, "Calculation3Icon": 261170, "Calculation4Icon": 262966
+};
+
+// create icons size list (width, height)
+export const icons_size = {
+    "CalculationIcon": [55, 56],
+    "CodeIcon": [55, 56],
+    "DistributionIcon": [55, 56],
+    "ElementIcon": [55, 56],
+    "FinanceIcon": [55, 56],
+    "GraphIcon": [55, 56],
+    "InferenceIcon": [55, 56],
+    "RegressionIcon": [55, 56],
+    "SequenceIcon": [55, 56],
+    "SettingsIcon": [55, 56],
+    "SolverIcon": [55, 56],
+    "StatIcon": [55, 56],
+    "OffIcon": [55, 56],
+    "LambdaIcon": [55, 56],
+    "PressToTestSuccessEpsilon": [13, 13],
+    "HistogramIcon": [31, 16],
+    "BoxIcon": [31, 7],
+    "CumulativeIcon": [31, 19],
+    "StatisticsNormalIcon": [31, 17],
+    "ConfidenceInterval": [45, 27],
+    "SignificanceTest": [45, 27],
+    "BinomialIcon": [35, 19],
+    "ExponentialIcon": [35, 19],
+    "ChiSquaredIcon": [35, 19],
+    "GeometricIcon": [35, 19],
+    "PoissonIcon": [35, 19],
+    "UniformIcon": [35, 19],
+    "NormalIcon": [35, 19],
+    "StudentIcon": [32, 19],
+    "HypergeometricIcon": [35, 19],
+    "FisherIcon": [35, 19],
+    "Calculation1Icon": [39, 23],
+    "Calculation2Icon": [39, 23],
+    "Calculation3Icon": [39, 23],
+    "Calculation4Icon": [39, 23]
+};
+
+export function setBackgroundImg(newData) {
+    background_img = newData;
+}

@@ -90,3 +90,24 @@ input[type="file"] {
     background-color: rgb(74,197,20);
     border-radius: 12px;
 }
+
+.images_grid{
+    display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+    background-color: rgb(74,197,20);
+    border-radius: 12px;
+    padding: 20px 20px;
+}
+
+.remove_button {
+  background-color: rgb(235, 70, 70);
+  border: none;
+  color: white;
+  padding: 5px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 20px;
+}

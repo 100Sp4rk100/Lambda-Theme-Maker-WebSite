@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <title>Lambda Theme Maker</title>
         <link rel="stylesheet" href="style/global.css">
-        <script type="module" src="./main.js"></script>
+        <script type="module" src="./JS/main.js"></script>
         <link rel="icon" type="image/png" href="./images/icon.png">
     </head>
     <body>
@@ -16,7 +16,7 @@
             <h3>Make a theme for Lambda OS</h3>
         </div>
         <main>
-            <a href="https://github.com/100Sp4rk100/Lambda-OS#dynamic-profile">Get more informations here</a>
+            <a href="https://github.com/100Sp4rk100/Lambda-OS#dynamic-profile">Get more information here</a>
             <br>
             <h1 class="title">Customize the userland colors</h1>
             <section id="colors" class="color_grid">
@@ -25,30 +25,37 @@
             <section>
                 <h1 class="title">Customize the userland style</h1>
                 <div class="style_part">
-                    <input type="checkbox" id="squareIcon" title="It change the form of icons (a circle or a square). Checked = circle">
+                    <input type="checkbox" id="squareIcon" title="It changes the form of icons (a circle or a square). Checked = circle">
                     <label for="squareIcon">Icons in a circle</label>
                     <br>
-                    <input type="checkbox" id="dynamicImage" title="It change the yellow on the icons images with YellowDark that you have set previous">
+                    <input type="checkbox" id="dynamicImage" title="It changes the yellow on the icons images with YellowDark that you have set previously">
                     <label for="dynamicImage">Dynamic colors on images</label>
-                    <select id="iconProfil" title="If you don't want dynamic colors, select your color profil : Epsilon default theme or Lambda theme">
-                        <option value="epsilon">Epsilon profil</option>
-                        <option value="lambda">Lambda profil</option>
+                    <select id="iconProfil" title="If you don't want dynamic colors, select your color profile : Epsilon default theme or Lambda theme">
+                        <option value="epsilon">Epsilon profile</option>
+                        <option value="lambda">Lambda profile</option>
                     </select>
                 </div>
                 <h1 class="title">Customize the userland background</h1>
                 <div class="style_part">
                     <input type="checkbox" id="haveBackground" title="if it's checked you can give a background number to select an integrated background">
                     <label for="haveBackground">Activate background</label>
-                    <input type="number" min ="1" value="1" id="background" style="visibility: hidden;" title="Select an integrated background or import it"></input>
+                    <input type="number" min ="1" value="1" id="background" style="visibility: hidden;" title="Select an integrated background or import it">
                     <br>
                     <br>
                     <input type="checkbox" id="haveImageBackground" style="visibility: hidden;" title="Import a background">
                     <label for="haveImageBackground" id="haveImageBackgroundLabel" style="visibility: hidden;">Import background</label>
                     <label for="background_input" class="file_input_label" id="background_input_text" style="visibility: hidden;" title=".png">Import a background</label>
-                    <input type="file" id="background_input"></input>
+                    <input type="file" id="background_input">
                     <br>
                     <br>
                     <br>
+                </div>
+                <h1 class="title">Customize the icons</h1>
+                <div>
+                    <input type="checkbox" id="customImageCheck" title="Change images of the userland">
+                    <label for="customImageCheck">Customs images</label>
+                    <section id="images" class="images_grid" style="visibility: hidden;">
+                    </section>
                 </div>
             </section>
             <br>
@@ -64,7 +71,7 @@
             </section>
             <br>
             Console :
-            <section>
+            <section class="style_part">
                 <div id="console" style="overflow:scroll; height:400px;"></div>
             </section>
         </main>
