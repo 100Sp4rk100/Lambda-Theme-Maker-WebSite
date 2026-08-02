@@ -58,20 +58,54 @@ export const icons_data = {
     "SignificanceTest": null, "BinomialIcon": null, "ExponentialIcon": null, "ChiSquaredIcon": null,
     "GeometricIcon": null, "PoissonIcon": null, "UniformIcon": null, "NormalIcon": null,
     "StudentIcon": null, "HypergeometricIcon": null, "FisherIcon": null, "Calculation1Icon": null,
-    "Calculation2Icon": null, "Calculation3Icon": null, "Calculation4Icon": null
+    "Calculation2Icon": null, "Calculation3Icon": null, "Calculation4Icon": null,
+    "CalculationData": null, "Sys": null, "Py": null, "Theme": null, "File": null, "Folder": null, "Animation": null
 };
 
 // create icons offsets list
 export const icons_offsets = {
-    "CalculationIcon": 153600, "CodeIcon": 159762, "DistributionIcon": 165924, "ElementIcon": 172086,
-    "FinanceIcon": 178248, "GraphIcon": 184410, "InferenceIcon": 190572, "RegressionIcon": 196734,
-    "SequenceIcon": 202896, "SettingsIcon": 209058, "SolverIcon": 215220, "StatIcon": 221382,
-    "OffIcon": 227544, "LambdaIcon": 233706, "PressToTestSuccessEpsilon": 234046, "HistogramIcon": 235040,
-    "BoxIcon": 235476, "CumulativeIcon": 236656, "StatisticsNormalIcon": 237712, "ConfidenceInterval": 240144,
-    "SignificanceTest": 242576, "BinomialIcon": 243908, "ExponentialIcon": 245240, "ChiSquaredIcon": 246572,
-    "GeometricIcon": 247904, "PoissonIcon": 249236, "UniformIcon": 250568, "NormalIcon": 251900,
-    "StudentIcon": 253118, "HypergeometricIcon": 254450, "FisherIcon": 255782, "Calculation1Icon": 257578,
-    "Calculation2Icon": 259374, "Calculation3Icon": 261170, "Calculation4Icon": 262966
+    "CalculationIcon": 153600, 
+    "CodeIcon": 159762, 
+    "DistributionIcon": 165924, 
+    "ElementIcon": 172086,
+    "FinanceIcon": 178248, 
+    "GraphIcon": 184410, 
+    "InferenceIcon": 190572, 
+    "RegressionIcon": 196734,
+    "SequenceIcon": 202896, 
+    "SettingsIcon": 209058, 
+    "SolverIcon": 215220, 
+    "StatIcon": 221382,
+    "OffIcon": 227544, 
+    "LambdaIcon": 233706, 
+    "PressToTestSuccessEpsilon": 239868,
+    "HistogramIcon": 240208,
+    "BoxIcon": 241202,
+    "CumulativeIcon": 241638, 
+    "StatisticsNormalIcon": 242818, 
+    "ConfidenceInterval": 243874,
+    "SignificanceTest": 246306, 
+    "BinomialIcon": 248738, 
+    "ExponentialIcon": 250070, 
+    "ChiSquaredIcon": 251402,
+    "GeometricIcon": 252734, 
+    "PoissonIcon": 254066, 
+    "UniformIcon": 255398, 
+    "NormalIcon": 256730,
+    "StudentIcon": 258062, 
+    "HypergeometricIcon": 259280, 
+    "FisherIcon": 260612, 
+    "Calculation1Icon": 261944,
+    "Calculation2Icon": 263740, 
+    "Calculation3Icon": 265536, 
+    "Calculation4Icon": 267332,
+    "CalculationData": 269128,
+    "Sys": 275290,
+    "Py": 281452,
+    "Theme": 287614,
+    "File": 293776,
+    "Folder": 299938,
+    "Animation": 306100
 };
 
 // create icons size list (width, height)
@@ -110,7 +144,14 @@ export const icons_size = {
     "Calculation1Icon": [39, 23],
     "Calculation2Icon": [39, 23],
     "Calculation3Icon": [39, 23],
-    "Calculation4Icon": [39, 23]
+    "Calculation4Icon": [39, 23],
+    "CalculationData": [55, 56],
+    "Sys": [55, 56],
+    "Py": [55, 56],
+    "Theme": [55, 56],
+    "File": [55, 56],
+    "Folder": [55, 56],
+    "Animation": [55, 56]
 };
 
 export function setBackgroundImg(newData) {

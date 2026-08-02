@@ -67,7 +67,7 @@ export async function upload_on_calculator(){
             let pinfo = await calculator.getPlatformInfo();
             const startFlash = pinfo.external.flashStart;
             await calculator.__flashStorage(startFlash, combinedBuffer.buffer, pinfo.version);
-            console.log("Customs data installed")
+            console.log("Customs data installed");
         }
 
         alert("Theme successfully installed !");

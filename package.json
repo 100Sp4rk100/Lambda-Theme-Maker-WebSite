@@ -1,5 +1,5 @@
 {
-  "name": "site-web",
+  "name": "lambda-theme-maker",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -7,9 +7,9 @@
     "build": "vite build"
   },
   "keywords": [],
-  "author": "",
+  "author": "100Sp4rk100",
   "license": "ISC",
-  "description": "",
+  "description": "A website to make themes for lambda userland",
   "dependencies": {
     "upsilon.js": "github:Yaya-Cout/Upsilon.js#master"
   },
