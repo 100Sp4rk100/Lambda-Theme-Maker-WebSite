@@ -1,5 +1,6 @@
-import {background_img, setBackgroundImg, palette, icons_data} from "./data.js"
+import {background_img, setBackgroundImg, palette, icons_data, nwa_data_images} from "./data.js"
 import {toHex} from "./utils.js"
+import {add_nwa_input} from "./setup.js"
 
 //download the theme
 export function download_theme(){
@@ -12,12 +13,14 @@ export function download_theme(){
             iconProfil: document.getElementById("iconProfil").value,
             dynamic_image: document.getElementById("dynamicImage").checked,
             import_background: document.getElementById("haveImageBackground").checked,
-            customImageCheck: document.getElementById("customImageCheck").checked
+            customImageCheck: document.getElementById("customImageCheck").checked,
+            customNWA: document.getElementById("customNWAImageCheck").checked
         },
         background: {
             name: document.getElementById("background_input_text").innerHTML,
             data: background_img
         },
+        nwaCustomData: nwa_data_images,
         icons: icons_data
     };
 
@@ -78,8 +81,24 @@ export function import_theme(e){
                     document.getElementById(imageName+"_btn").style.visibility = "visible"
                 }
             });
-            if(json["settings"]["customImageCheck"]) document.getElementById("images").style.visibility = "visible";
-            else document.getElementById("images").style.visibility = "hidden";
+            if(json["settings"]["customImageCheck"]){
+                document.getElementById("customNWAImageCheck").style.visibility = "visible";
+                document.getElementById("customNWAImageCheckLabel").style.visibility = "visible";
+                document.getElementById("images").style.visibility = "visible";
+            } else{
+                document.getElementById("images").style.visibility = "hidden";
+                document.getElementById("customNWAImageCheck").style.visibility = "hidden";
+                document.getElementById("customNWAImageCheckLabel").style.visibility = "hidden";
+            }
+
+            if ("customNWA" in json["settings"]){
+                document.getElementById("customNWAImageCheck").checked = json["settings"]["customNWA"];
+            }
+
+            if ("nwaCustomData" in json){
+                Object.assign(nwa_data_images, json["nwaCustomData"]);
+                add_nwa_input();
+            }
         } catch (error) {
             alert("Invalid profil : " + error)
         }

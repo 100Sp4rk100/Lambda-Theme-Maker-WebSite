@@ -1,4 +1,4 @@
-import {setupColorsListe, setupImagesListe, setup_listeners} from "./setup.js"
+import {setupColorsListe, setupImagesListe, setup_listeners, setup_nwa_image_list} from "./setup.js"
 import {calculator, calculator_connected, connect_upload, setConnectedTo} from "./numworks_manager.js"
 
 //copy of original console
@@ -42,7 +42,7 @@ calculator.autoConnect(calculator_connected);
 
 //setup rest of html
 setupColorsListe();
-setupImagesListe()
+setupImagesListe();
 
 //setup listeners
-setup_listeners()
+setup_listeners();

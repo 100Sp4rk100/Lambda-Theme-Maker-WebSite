@@ -154,6 +154,8 @@ export const icons_size = {
     "Animation": [55, 56]
 };
 
+export let nwa_data_images = {}
+
 export function setBackgroundImg(newData) {
     background_img = newData;
 }

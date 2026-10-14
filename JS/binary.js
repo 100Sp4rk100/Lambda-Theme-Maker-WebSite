@@ -92,3 +92,22 @@ export function makeImageBuffer(image){
 
     return buffer;
 }
+
+export function makeNWAImageBuffer(image){
+    const buffer = new ArrayBuffer((55*56*2)+2);
+    const view = new DataView(buffer);
+
+    if (image == null){
+        view.setUint16(0, 0xDEAD, true);
+        for (let i = 0; i < 55*56; i++) {
+            view.setUint16(2+i*2, 0, true);
+        }
+    }else{
+        view.setUint16(0, 1, true);
+        image.forEach((color, index) => {
+            view.setUint16(2+index*2, color, true);
+        });
+    }
+
+    return buffer;
+}
