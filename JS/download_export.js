@@ -98,6 +98,11 @@ export function import_theme(e){
             if ("nwaCustomData" in json){
                 Object.assign(nwa_data_images, json["nwaCustomData"]);
                 add_nwa_input();
+                Object.keys(nwa_data_images).forEach(function(imageName) {
+                if (nwa_data_images[imageName] != null){
+                    document.getElementById(imageName+"_btn").style.visibility = "visible"
+                }
+            });
             }
         } catch (error) {
             alert("Invalid profil : " + error)
